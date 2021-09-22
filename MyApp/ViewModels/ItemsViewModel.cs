@@ -80,7 +80,9 @@ namespace MyApp.ViewModels
         {
             try
             {
-                var searchedItems = _allItems.Where(i => i.Name.Contains(query));
+                var capitalizedEntry = char.ToUpper(query[0]) + query.Substring(1);
+
+                var searchedItems = _allItems.Where(i => i.Name.Contains(capitalizedEntry));
 
                 Items.Clear();
 

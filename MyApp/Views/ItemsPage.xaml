@@ -12,7 +12,6 @@
         <StackLayout>
             <SearchBar x:Name="searchBar"
                        Placeholder="Search"
-                       TextTransform="Lowercase"
                        SearchCommand="{Binding SearchCommand}"
                        SearchCommandParameter="{Binding Text, Source={x:Reference searchBar}}"/>
 
