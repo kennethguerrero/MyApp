@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="MyApp.Views.ItemsPage"
+    xmlns:vm="clr-namespace:MyApp.ViewModels"
+    xmlns:model="clr-namespace:MyApp.Models"
+    x:DataType="vm:ItemsViewModel">
+
+    <ContentPage.Content>
+
+        <StackLayout>
+            <SearchBar x:Name="searchBar"
+                       Placeholder="Search"
+                       TextTransform="Lowercase"
+                       SearchCommand="{Binding SearchCommand}"
+                       SearchCommandParameter="{Binding Text, Source={x:Reference searchBar}}"/>
+
+            <ListView IsPullToRefreshEnabled="True"
+                      HasUnevenRows="True"
+                      SeparatorVisibility="None"
+                      ItemsSource="{Binding Items}"
+                      IsRefreshing="{Binding IsBusy, Mode=OneWay}"
+                      RefreshCommand="{Binding LoadItemsCommand}"
+                      SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
+
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="model:Item">
+
+                        <TextCell Text="{Binding Name}"
+                                  Detail="{Binding ImageUrl}" />
+
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+
+            </ListView>
+        </StackLayout>
+
+    </ContentPage.Content>
+
+</ContentPage>
