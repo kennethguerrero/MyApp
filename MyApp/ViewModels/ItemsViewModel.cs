@@ -4,10 +4,9 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using MyApp.Exceptions;
+using MyApp.Helpers;
 using MyApp.Models;
 using MyApp.Services;
-using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace MyApp.ViewModels
@@ -19,15 +18,18 @@ namespace MyApp.ViewModels
         public Command LoadItemsCommand { get; }
         public Command<string> SearchCommand { get; }
         private readonly IDataService _dataService;
+        private readonly IOpenBrowserHelper _openBrowserHelper;
+        private readonly IShellHelper _shellHelper;
 
-        public ItemsViewModel(IDataService dataService)
+        public ItemsViewModel(IDataService dataService, IOpenBrowserHelper openBrowserHelper, IShellHelper shellHelper)
         {
             Title = "Items";
             Items = new ObservableCollection<Item>();
             LoadItemsCommand = new Command(async () => await LoadItems());
             SearchCommand = new Command<string>(async (query) => await Search(query));
             _dataService = dataService;
-
+            _openBrowserHelper = openBrowserHelper;
+            _shellHelper = shellHelper;
             Initialize = LoadItems();
         }
 
@@ -44,10 +46,6 @@ namespace MyApp.ViewModels
                 {
                     Items.Add(item);
                 }
-            }
-            catch (NoInternetException)
-            {
-                await Shell.Current.DisplayAlert(null, "Check your internet connection", "close");
             }
             catch (Exception ex)
             {
@@ -72,8 +70,7 @@ namespace MyApp.ViewModels
                 return;
 
             SelectedItem = null;
-
-            await Browser.OpenAsync(item.ImageUrl);
+            await _openBrowserHelper.OpenInBrowser(item.ImageUrl);
         }
 
         public async Task Search(string query)
@@ -81,7 +78,6 @@ namespace MyApp.ViewModels
             try
             {
                 var capitalizedEntry = char.ToUpper(query[0]) + query.Substring(1);
-
                 var searchedItems = _allItems.Where(i => i.Name.Contains(capitalizedEntry));
 
                 Items.Clear();
@@ -90,10 +86,7 @@ namespace MyApp.ViewModels
                 {
                     Items.Add(item);
                 }
-            }
-            catch (NoInternetException)
-            {
-                await Shell.Current.DisplayAlert(null, "Check your internet connection", "close");
+                await _shellHelper.DisplayAlert("Search complete");
             }
             catch (Exception ex)
             {

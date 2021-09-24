@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using MonkeyCache.FileStore;
@@ -14,27 +15,41 @@ namespace MyApp.Services
     {
         //public async Task<IEnumerable<Item>> GetItems()
         //{
-        //    try
-        //    {
-        //        var url = "https://gist.githubusercontent.com/erni-ph-mobile-team/c5b401c4fad718da9038669250baff06/raw/7e390e8aa3f7da4c35b65b493fcbfea3da55eac9/test.json";
-        //        var httpClient = new HttpClient();
-        //        var response = await httpClient.GetAsync(url);
+            //try
+            //{
+            //    var url = "https://gist.githubusercontent.com/erni-ph-mobile-team/c5b401c4fad718da9038669250baff06/raw/7e390e8aa3f7da4c35b65b493fcbfea3da55eac9/test.json";
 
-        //        if (!response.IsSuccessStatusCode)
-        //        {
-        //            return Enumerable.Empty<Item>();
-        //        }
+            //    var httpClient = new HttpClient();
+            //    var response = await httpClient.GetAsync(url);
 
-        //        var json = await response.Content.ReadAsStringAsync();
-        //        var list = JsonConvert.DeserializeObject<IEnumerable<Item>>(json);
+            //    if (!response.IsSuccessStatusCode)
+            //    {
+            //        return Enumerable.Empty<Item>();
+            //    }
 
-        //        return list;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Debug.WriteLine(ex);
-        //        return Enumerable.Empty<Item>();
-        //    }
+            //    var json = await response.Content.ReadAsStringAsync();
+            //    var list = JsonConvert.DeserializeObject<IEnumerable<Item>>(json);
+
+            //    return list;
+            //}
+            //catch (Exception ex)
+            //{
+            //    Debug.WriteLine(ex);
+            //    return Enumerable.Empty<Item>();
+            //}
+
+            //var url = @"https://en.wikipedia.org/w/api.php?action=opensearch&search=designpattern&limit=20&namespace=0&format=json";
+            //var httpClient = new HttpClient();
+            //var response = await httpClient.GetAsync(url);
+            //var json = await response.Content.ReadAsStringAsync();
+            //var list = JsonConvert.DeserializeObject<dynamic>(json);
+
+            //foreach (var item in list)
+            //{
+            //    Console.WriteLine(item);
+            //}
+
+            //return list;
         //}
 
         public Task<IEnumerable<Item>> GetItems() =>
